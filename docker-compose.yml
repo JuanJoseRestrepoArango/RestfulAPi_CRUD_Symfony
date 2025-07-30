@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: api_restfull_symfony_app
+    volumes:
+      - .:/var/www/html
+      - ./docker/apache.conf:/etc/apache2/sites-available/000-default.conf
+    ports:
+      - "8000:80"
+    depends_on:
+      - db
+    environment:
+      - APP_ENV=dev
+      - APP_SECRET=${APP_SECRET:-ThisTokenIsNotSoSecretChangeIt}
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_DATABASE=restaurante_apirestful
+      - DB_USERNAME=usuario
+      - DB_PASSWORD=contraseña
+      - DATABASE_URL=mysql://usuario:contraseña@db:3306/restaurante_apirestful?serverVersion=8.0
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: mysql:8.0
+    container_name: api_restfull_symfony_db
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: contraseña
+      MYSQL_DATABASE: restaurante_apirestful
+      MYSQL_USER: usuario
+      MYSQL_PASSWORD: contraseña
+      MYSQL_ROOT_HOST: '%'
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+volumes:
+  db_data:
+    driver: local
+  php_sessions:
+    driver: local

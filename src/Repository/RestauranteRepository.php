@@ -16,6 +16,14 @@ class RestauranteRepository extends ServiceEntityRepository
         parent::__construct($registry, Restaurante::class);
     }
 
+    public function buscarPorTelefono($telefono){
+        return $this->createQueryBuilder('r')
+        ->andWhere('r.telefono = :telefono')
+        ->setParameter('telefono', $telefono)
+        ->getQuery()
+        ->getOneOrNullResult();
+    }
+
     //    /**
     //     * @return Restaurante[] Returns an array of Restaurante objects
     //     */

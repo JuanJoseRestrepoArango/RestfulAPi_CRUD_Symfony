@@ -1,0 +1,33 @@
+nelmio_api_doc:
+    areas:
+        path_patterns:
+            - ^/api(?!/doc$)
+    documentation:
+        info:
+            title: API de Restaurantes
+            version: 1.0.0
+        components:
+            securitySchemes:
+                api_key:
+                    type: apiKey
+                    in: header
+                    name: X-API-KEY
+                    description: Clave API para autorización
+            schemas:
+                Restaurante:
+                    type: object
+                    properties:
+                        id:
+                            type: integer
+                            example: 1
+                        nombre:
+                            type: string
+                            example: 'Restaurante Ejemplo'
+                        direccion:
+                            type: string
+                            example: 'Calle Principal 123'
+                        telefono:
+                            type: string
+                            example: '+1234567890'
+        security:
+            - api_key: []
