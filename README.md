@@ -192,7 +192,7 @@ docker-compose down
 
 ---
 
-## 📚 Documentación de la API (Swagger)
+## 📚 Documentación de la API (NelmioApiDocBundle)
 
 La API cuenta con documentación automática generada con **NelmioApiDocBundle**.
 
